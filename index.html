@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="UTF-8">
+  <title>Bem-vindo</title>
+  <style>
+    .myBackgroundStyle{
+      background-image: url("https://www.scheer-group.com/fileadmin/scheer/Header-und-Slider/Website-Header-71-1340x720.jpg");
+      background-size: 100%;
+      background-repeat: none;
+       max-width: 100%;
+       max-height: auto;
+    }
+  </style>
+</head>
+<body class="sapUiBody" role="application">
+  <div id="content"></div>
+
+  <script id="sap-ui-bootstrap"
+    src="https://sapui5.hana.ondemand.com/sdk/resources/sap-ui-core.js"
+    data-sap-ui-theme="sap_belize_plus"
+    data-sap-ui-libs="sap.m, sap.ui.core"
+    data-sap-ui-compatversion="edge"
+    data-sap-ui-excludejquerycompat="true"
+    data-sap-ui-xx-waitfortheme="init">
+    </script>
+
+  <script type="text/javascript">
+    var oApp = new sap.m.App("myApp");
+    
+   var oPage = new sap.m.Page();
+      oPage.addStyleClass("myBackgroundStyle");
+      
+    // Criar um TileContainer para conter os tiles
+    var oTileContainer = new sap.m.TileContainer();
+
+    // Dados dos tiles
+    var tilesData = [
+   
+      { title: "LinkedIn", icon: "sap-icon://globe", footer: "Meu perfil no linkedin 🌎", url: "https://www.linkedin.com/in/pedro-honorato" },
+      { title: "Github", icon: "sap-icon://org-chart", footer: "Veja meu repositório 💻", url: "https://github.com/rp-honorato" },
+      { title: "Contacto", icon: "sap-icon://ipad", footer: "Envie-me um e-mail 📧", url: "mailto:rpedro.honorato@gmail.com" }
+    ];
+
+    // Criar os tiles e adicioná-los ao TileContainer
+    for (var i = 0; i < tilesData.length; i++) {
+      var tileData = tilesData[i];
+      var oTile = new sap.m.StandardTile({
+        title: tileData.title,
+        icon: tileData.icon,
+        info: tileData.footer,
+        press: function (data) {
+          return function () {
+            window.open(data.url, '_blank'); // Abre a URL em uma nova aba
+          };
+        }(tileData)
+      });
+      oTileContainer.addTile(oTile);
+    }
+    oTileContainer.addStyleClass("myBackgroundStyle");
+    // Adicionar o TileContainer a uma página
+    var oPage = new sap.m.Page("page1", {
+      title: "Welcome",
+      content: [oTileContainer]
+    });
+
+    // Adicionar rodapé à página
+    let oButtonInFooter = new sap.m.Button({
+      text: "Github",
+      type: sap.m.ButtonType.Transparent,
+      press: function () {
+        window.open("https://github.com/rp-honorato", '_blank'); // Substitua pela URL desejada
+      }
+    });
+
+// Adicionar relógio ao rodapé no lado esquerdo
+var clockElement = new sap.m.Text({ id: "clock" });
+var oFooter = new sap.m.Bar({
+  contentLeft: [clockElement], // Mover o relógio para o lado esquerdo
+  contentRight: [oButtonInFooter],   // Manter o botão GitHub no lado direito
+});
+oFooter.addStyleClass("footer-bar"); 
+oPage.setFooter(oFooter); 
+
+// Função para atualizar o relógio
+function updateClock() {
+  var now = new Date();
+  var formattedTime = now.toLocaleTimeString();
+  clockElement.setText(formattedTime);
+}
+
+// Atualizar o relógio a cada segundo
+updateClock();
+setInterval(updateClock, 1000);
+
+oApp.addPage(oPage);
+oApp.placeAt("content");
+
+  </script>
+</body>
+
+</html>
